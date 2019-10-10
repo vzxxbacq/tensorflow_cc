@@ -184,6 +184,7 @@ install(
   DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/tensorflow/"
   DESTINATION include/tensorflow
   FILES_MATCHING PATTERN "*.h"
+                 PATTERN "*.inc"
 )
 # install all header files downloaded by contrib/makefile
 # (Note that we cannot simply include all *.h or *.hpp files, since e.g., eigen
@@ -255,6 +256,10 @@ if(TENSORFLOW_SHARED)
     FILE TensorflowCCSharedTargets.cmake
     NAMESPACE TensorflowCC::
     DESTINATION "${CMAKECFG_INSTALL_DIR}"
+  )
+
+  install(
+    CODE "execute_process(COMMAND ln -s ${CMAKE_INSTALL_PREFIX}/lib/tensorflow_cc/libtensorflow.so ${CMAKE_INSTALL_PREFIX}/lib/tensorflow_cc/tensorflow.so.1)"
   )
 endif()
 if(TENSORFLOW_STATIC)
